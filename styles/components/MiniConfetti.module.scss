@@ -1,0 +1,27 @@
+$primary-pink: #ff69b4;
+
+.container {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  width: 300px;
+  height: 150px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 15;
+  overflow: visible;
+  will-change: transform;
+}
+
+.confetti {
+  position: absolute;
+  font-size: 14px;
+  left: 50%;
+  top: 20px;
+  transform: translateX(-50%);
+  will-change: transform, opacity;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+}

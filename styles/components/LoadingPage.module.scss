@@ -1,0 +1,213 @@
+$primary-pink: #ff69b4;
+$dark-pink: #ff1493;
+$white: #fff;
+$gold: #ffd700;
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(-45deg, #ff69b4, #ffd700, #ff1493, #ffb6d9, #ff69b4);
+  background-size: 300% 300%;
+  animation: gradientShift 4s ease infinite;
+  position: relative;
+  z-index: 10;
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  position: relative;
+  z-index: 5;
+  padding: 40px;
+  background: linear-gradient(135deg, #ffd700 0%, #ff69b4 50%, #ffb6e1 100%);
+  border-radius: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(20px);
+  width: min(92vw, 380px);
+  min-height: 430px;
+  border: 2px solid rgba(#fff, 0.3);
+  will-change: width, height;
+
+  @media (max-width: 768px) {
+    gap: 20px;
+    padding: 30px 20px;
+    border-radius: 20px;
+    width: min(94vw, 340px);
+    min-height: 390px;
+  }
+}
+
+.phraseContainer {
+  width: 100%;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phrase {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  width: 100%;
+  max-width: 300px;
+  line-height: 1.35;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+}
+
+.progressContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 300px;
+
+  @media (max-width: 768px) {
+    max-width: 250px;
+  }
+}
+
+.progressBar {
+  width: 100%;
+  height: 12px;
+  background: rgba($white, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 
+    inset 0 2px 5px rgba(#000, 0.1),
+    0 0 20px rgba($dark-pink, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba($white, 0.5);
+}
+
+.progress {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    $primary-pink 0%,
+    $dark-pink 25%,
+    $gold 50%,
+    $dark-pink 75%,
+    $primary-pink 100%
+  );
+  background-size: 200% 100%;
+  border-radius: 10px;
+  box-shadow: 
+    0 0 25px rgba($dark-pink, 0.7),
+    0 0 15px rgba($gold, 0.5),
+    inset 0 0 10px rgba($white, 0.3);
+  animation: progressGradient 2s ease infinite, progressPulse 1.5s ease-in-out infinite;
+  position: relative;
+  transition: width 0.45s ease-out;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba($white, 0.3) 50%,
+      transparent 100%
+    );
+    border-radius: 10px;
+    animation: shimmer 2s ease-in-out infinite;
+  }
+}
+
+@keyframes progressGradient {
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+
+@keyframes progressPulse {
+  0% {
+    box-shadow: 
+      0 0 15px rgba($dark-pink, 0.5),
+      0 0 10px rgba($gold, 0.3),
+      inset 0 0 10px rgba($white, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 35px rgba($dark-pink, 1),
+      0 0 25px rgba($gold, 0.7),
+      inset 0 0 10px rgba($white, 0.4);
+  }
+  100% {
+    box-shadow: 
+      0 0 15px rgba($dark-pink, 0.5),
+      0 0 10px rgba($gold, 0.3),
+      inset 0 0 10px rgba($white, 0.2);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.progressText {
+  font-size: 14px;
+  color: $dark-pink;
+  font-weight: 700;
+  text-shadow: 0 2px 10px rgba($dark-pink, 0.2);
+  background: linear-gradient(135deg, $dark-pink, $primary-pink);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hearts {
+  display: flex;
+  gap: 10px;
+  height: 40px;
+}
+
+.heart {
+  font-size: 24px;
+  display: inline-block;
+  filter: drop-shadow(0 2px 8px rgba($dark-pink, 0.3));
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+}

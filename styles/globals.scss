@@ -1,0 +1,118 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+$primary-pink: #ff69b4;
+$light-pink: #ffb6d9;
+$dark-pink: #ff1493;
+$white: #ffffff;
+$black: #000000;
+$soft-bg: #fff5f9;
+$gold: #ffd700;
+$soft-green: #a8d8a8;
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: $black;
+  transition: background 1.8s ease;
+}
+
+html {
+  overflow: hidden;
+}
+
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+  background-attachment: fixed;
+  transition: background 1.8s ease-in-out;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: $soft-bg;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $primary-pink;
+  border-radius: 5px;
+
+  &:hover {
+    background: $dark-pink;
+  }
+}
+
+/* Global animations */
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes heartBeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  75% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-family: inherit;
+}
+
+input {
+  font-family: inherit;
+  border: none;
+  outline: none;
+
+  &:focus {
+    outline: 2px solid $primary-pink;
+  }
+}
