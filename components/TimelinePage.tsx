@@ -50,8 +50,11 @@ export const TimelinePage: React.FC<TimelinePageProps> = ({ onLogout }) => {
     type Item =
       | { kind: 'month'; date: Date; label: string; monthIndex: number; gap: number }
       | { kind: 'event'; date: Date; eventIndex: number; gap: number };
+    type RawItem =
+      | { kind: 'month'; date: Date; label: string; monthIndex: number }
+      | { kind: 'event'; date: Date; eventIndex: number };
 
-    const mixedItems: Array<Omit<Item, 'gap'>> = [
+    const mixedItems: RawItem[] = [
       ...monthDates.map((date, monthIndex) => ({
         kind: 'month' as const,
         date,
@@ -73,11 +76,17 @@ export const TimelinePage: React.FC<TimelinePageProps> = ({ onLogout }) => {
     });
 
     return mixedItems.map((item, index): Item => {
-      if (index === 0) return { ...item, gap: 0 };
+      if (index === 0) {
+        return item.kind === 'month'
+          ? { ...item, gap: 0 }
+          : { ...item, gap: 0 };
+      }
       const prevDate = mixedItems[index - 1].date;
       const diffDays = Math.max(1, Math.round((item.date.getTime() - prevDate.getTime()) / DAY_MS));
       const gap = Math.max(MIN_GAP, Math.min(MAX_GAP, diffDays * PX_PER_DAY));
-      return { ...item, gap };
+      return item.kind === 'month'
+        ? { ...item, gap }
+        : { ...item, gap };
     });
   }, [timelineEvents]);
 
