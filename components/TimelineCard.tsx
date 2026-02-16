@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { formatDate, formatMonthYear } from '@/utils/constants';
+import { formatDate } from '@/utils/constants';
 import styles from '@/styles/components/TimelineCard.module.scss';
 
 interface TimelineCardProps {
@@ -57,26 +57,6 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
         transition={{ duration: 0.6, delay: index * 0.1 }}
         viewport={{ once: true, margin: '-100px' }}
       >
-        <motion.div
-          className={styles.dateLabel}
-          initial={{ opacity: 0, x: isLeft ? -24 : 24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2 + index * 0.1 }}
-          viewport={{ once: true, margin: '-100px' }}
-        >
-          {isLeft ? (
-            <>
-              <span className={styles.monthText}>{formatMonthYear(date)}</span>
-              <div className={styles.arrow} />
-            </>
-          ) : (
-            <>
-              <div className={styles.arrow} />
-              <span className={styles.monthText}>{formatMonthYear(date)}</span>
-            </>
-          )}
-        </motion.div>
-
         <motion.div
           className={styles.card}
           whileHover={{ scale: 1.05, y: -10 }}

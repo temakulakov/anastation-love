@@ -194,6 +194,7 @@ $black: #000;
     width: 10px;
     border-radius: 10px;
     left: calc(var(--timeline-axis-x) - 5px);
+
     &::after {
       font-size: 16px;
       top: 20%;
@@ -298,6 +299,102 @@ $black: #000;
   }
 }
 
+.timelineItem {
+  width: 100%;
+}
+
+.monthWrapper {
+  --axis-width: 20px;
+  --join-length: 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--axis-width) minmax(0, 1fr);
+  align-items: center;
+  position: relative;
+  min-height: 34px;
+  z-index: 2;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    height: 2px;
+    border-radius: 999px;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, rgba($primary-pink, 0.4), rgba($dark-pink, 0.85));
+    box-shadow: 0 0 8px rgba($primary-pink, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    --axis-width: 10px;
+    --join-length: 22px;
+    grid-template-columns: var(--axis-width) var(--join-length) minmax(0, 1fr);
+  }
+}
+
+.monthWrapper.left::before {
+  right: calc(50% + (var(--axis-width) / 2));
+ width: calc(var(--join-length) + 10px);
+}
+
+.monthWrapper.right::before {
+  left: calc(50% + (var(--axis-width) / 2));
+  width: calc(var(--join-length) + 10px);
+}
+
+.monthContainer {
+  display: flex;
+  position: relative;
+  z-index: 4;
+}
+
+.monthWrapper.left .monthContainer {
+  grid-column: 1;
+  justify-self: end;
+  margin-right: 14px;
+}
+
+.monthWrapper.right .monthContainer {
+  grid-column: 3;
+  justify-self: start;
+  margin-left: 14px;
+}
+
+.monthText {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  color: $dark-pink;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba($primary-pink, 0.3);
+  background: rgba($white, 0.85);
+  box-shadow: 0 6px 18px rgba($primary-pink, 0.16);
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .monthWrapper.left::before,
+  .monthWrapper.right::before {
+    left: calc(var(--timeline-axis-x, 9px) + (var(--axis-width) / 2));
+    right: auto;
+   width: calc(var(--join-length) + 10px);
+  }
+
+  .monthWrapper.left .monthContainer,
+  .monthWrapper.right .monthContainer {
+    grid-column: 3;
+    justify-self: start;
+    margin-left: 10px;
+    margin-right: 0;
+  }
+
+  .monthText {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+}
+
 .footer {
   text-align: center;
   margin-top: 80px;
@@ -342,6 +439,38 @@ $black: #000;
 
     @media (max-width: 768px) {
       height: 40px;
+    }
+  }
+}
+
+.reasonsButton {
+  display: inline-flex;
+  margin-top: 24px;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #ff5a93 0%, #ff3a82 50%, #ff7e55 100%);
+  box-shadow: 0 10px 24px rgba(255, 58, 130, 0.35);
+  transition: box-shadow 0.25s ease;
+
+  a {
+    display: inline-flex;
+    padding: 12px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 800;
+    color: $white;
+  }
+
+  &:hover {
+    box-shadow: 0 14px 30px rgba(255, 58, 130, 0.45);
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 18px;
+
+    a {
+      padding: 11px 18px;
+      font-size: 14px;
     }
   }
 }

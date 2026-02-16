@@ -1,0 +1,251 @@
+$rose: #ff3c78;
+$berry: #c6276f;
+$gold: #ffd46b;
+$cream: #fff8ef;
+$ink: #2a1632;
+
+.container {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  padding: 70px 18px 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(255, 212, 107, 0.2), transparent 45%),
+    radial-gradient(circle at 85% 20%, rgba(255, 60, 120, 0.25), transparent 38%),
+    linear-gradient(130deg, #ffe8f0 0%, #ffe6cf 45%, #ffe8ff 100%);
+  background-size: 160% 160%;
+  animation: bgShimmer 10s ease-in-out infinite;
+}
+
+.orbLayer {
+  position: absolute;
+  inset: -12%;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(255, 60, 120, 0.24), transparent 35%),
+    radial-gradient(circle at 70% 70%, rgba(198, 39, 111, 0.24), transparent 34%),
+    radial-gradient(circle at 88% 28%, rgba(255, 212, 107, 0.25), transparent 28%);
+  filter: blur(25px);
+  animation: drift 12s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  width: min(94vw, 760px);
+  border-radius: 28px;
+  padding: 36px 24px 34px;
+  background: rgba(255, 255, 255, 0.67);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 24px 56px rgba(112, 19, 67, 0.2);
+  backdrop-filter: blur(14px);
+  text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 28px 16px 26px;
+    border-radius: 20px;
+  }
+}
+
+.emojiCloud {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.rotatingEmoji {
+  position: absolute;
+  font-size: clamp(20px, 2.7vw, 34px);
+  filter: drop-shadow(0 4px 10px rgba(255, 60, 120, 0.2));
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(34px, 5.2vw, 58px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+  background: linear-gradient(100deg, $rose 0%, $berry 45%, $gold 85%, $rose 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  margin: 12px auto 20px;
+  max-width: 540px;
+  font-size: clamp(15px, 2.1vw, 19px);
+  color: rgba($ink, 0.74);
+  font-weight: 600;
+}
+
+.reasonCard {
+  position: relative;
+  border-radius: 24px;
+  min-height: 220px;
+  padding: 28px 18px 20px;
+  margin: 0 auto 20px;
+  width: min(100%, 630px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.95), rgba(255, 234, 242, 0.88));
+  border: 1px solid rgba($rose, 0.25);
+  box-shadow: 0 18px 42px rgba(124, 28, 80, 0.2);
+  animation: cardGlow 2.4s ease-in-out infinite;
+
+  @media (max-width: 768px) {
+    min-height: 210px;
+    padding: 24px 14px 18px;
+    border-radius: 18px;
+  }
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: $berry;
+  background: rgba($cream, 0.9);
+  border: 1px solid rgba($rose, 0.25);
+  border-radius: 999px;
+  padding: 6px 10px;
+}
+
+.reasonText {
+  margin: 0;
+  font-size: clamp(22px, 4vw, 34px);
+  line-height: 1.25;
+  font-weight: 800;
+  max-width: 560px;
+  background: linear-gradient(110deg, #8d2450 0%, #bf2f73 45%, #f17755 80%, #8d2450 100%);
+  background-size: 210% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 6s ease-in-out infinite;
+}
+
+.drawButton {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 28px;
+  min-width: 230px;
+  font-size: 17px;
+  font-weight: 800;
+  color: white;
+  background: linear-gradient(120deg, $rose 0%, $berry 45%, #a91f5e 65%, $gold 100%);
+  background-size: 220% 100%;
+  box-shadow: 0 12px 28px rgba(198, 39, 111, 0.35);
+  cursor: pointer;
+  animation: buttonShimmer 4s ease-in-out infinite;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 42px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    gap: 26px;
+  }
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  color: #7d2a4f;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+  border-bottom: 1px dashed rgba(125, 42, 79, 0.5);
+  min-height: 22px;
+}
+
+.gameLink {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #7d2a4f;
+  font-size: 15px;
+  font-weight: 800;
+  border: 1px solid rgba(125, 42, 79, 0.3);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 16px rgba(125, 42, 79, 0.12);
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-2%, 1.5%, 0) scale(1.04);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes cardGlow {
+  0% {
+    box-shadow: 0 18px 42px rgba(124, 28, 80, 0.2);
+  }
+  50% {
+    box-shadow: 0 22px 52px rgba(124, 28, 80, 0.3);
+  }
+  100% {
+    box-shadow: 0 18px 42px rgba(124, 28, 80, 0.2);
+  }
+}
+
+@keyframes buttonShimmer {
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+
+@keyframes textShimmer {
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+
+@keyframes bgShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

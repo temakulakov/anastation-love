@@ -54,12 +54,12 @@ $black: #000;
 
   &.left::before {
     right: calc(var(--timeline-axis-x, 50%) + (var(--axis-width) / 2));
-    width: var(--join-length);
+     width: calc(var(--join-length) + 10px);
   }
 
   &.right::before {
     left: calc(var(--timeline-axis-x, 50%) + (var(--axis-width) / 2));
-    width: var(--join-length);
+    width: calc(var(--join-length) + 10px);
   }
 
   @media (max-width: 768px) {
@@ -71,7 +71,7 @@ $black: #000;
 
     &::before {
       left: calc(var(--timeline-axis-x, 9px) + (var(--axis-width) / 2));
-      width: var(--join-length);
+       width: calc(var(--join-length) + 10px);
     }
 
     &.left::before,
@@ -82,84 +82,9 @@ $black: #000;
   }
 }
 
-.dateLabel {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-  width: 100%;
-  min-height: 22px;
-  z-index: 2;
-
-  @media (max-width: 768px) {
-    gap: 8px;
-  }
-}
-
-.monthText {
-  font-size: 14px;
-  font-weight: 700;
-  color: $dark-pink;
-  white-space: nowrap;
-  line-height: 1.15;
-  letter-spacing: 0.02em;
-  text-align: center;
-  background: linear-gradient(135deg, $primary-pink, $dark-pink);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-
-  @media (max-width: 768px) {
-    font-size: 12px;
-  }
-}
-
-.arrow {
-  width: 24px;
-  height: 3px;
-  background: linear-gradient(90deg, $primary-pink, $dark-pink);
-  position: relative;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba($primary-pink, 0.3);
-  flex-shrink: 0;
-  z-index: 1;
-
-  &::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 8px;
-    height: 8px;
-    background: linear-gradient(135deg, $primary-pink, $dark-pink);
-    clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
-  }
-
-  .cardContainer.right & {
-    transform: scaleX(-1);
-
-    &::after {
-      right: auto;
-      left: 0;
-    }
-  }
-
-  @media (max-width: 768px) {
-    width: 18px;
-    height: 2px;
-
-    &::after {
-      width: 6px;
-      height: 6px;
-    }
-  }
-}
-
 .cardContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
   position: relative;
   width: min(100%, var(--card-max-width));
 
@@ -187,23 +112,6 @@ $black: #000;
     grid-column: 3;
     justify-self: start;
     align-items: flex-start;
-  }
-
-  &.left .dateLabel {
-    justify-content: flex-end;
-    padding-right: 2px;
-  }
-
-  &.right .dateLabel {
-    justify-content: flex-start;
-    padding-left: 2px;
-  }
-
-  @media (max-width: 768px) {
-    &.left .dateLabel,
-    &.right .dateLabel {
-      justify-content: flex-start;
-    }
   }
 }
 
