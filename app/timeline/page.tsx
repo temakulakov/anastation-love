@@ -11,7 +11,13 @@ import '@/styles/globals.scss';
 
 export default function TimelineRoute() {
   const router = useRouter();
-  const { isPlaying, toggleMusic } = useBackgroundMusic();
+  const { isPlaying, toggleMusic, playMusic } = useBackgroundMusic();
+
+  useEffect(() => {
+    if (!isPlaying) {
+      void playMusic();
+    }
+  }, [isPlaying, playMusic]);
 
   useEffect(() => {
     document.body.style.background = 'linear-gradient(-45deg, #d8f0d8, #e8c8e8, #c8e8d8, #d8f0d8)';

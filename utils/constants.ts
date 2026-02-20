@@ -4,8 +4,9 @@ export const LOADING_PHRASES = [
   '💕 загружаем любовь...',
   '✨ буферизируем волшебство...',
   '🦄 призываем единорогов...',
-  '💖 упаковываем нежность...',
-  '🦇 собираем черепа...',
+  '💖 упаковываем кринж...',
+  '💅 распаковываем вайбик...',
+  '💀 раскрываем черепа...',
   '🐹 зовем капибар...',
 ];
 
@@ -25,21 +26,17 @@ export const TIMELINE_PHRASES = [
 ];
 
 export const REASONS_BANK = [
+  'Пойти с тобой бухнуть было самым лучшим решением в моей жизни.',
+  'Твоя улыбка делает меня счастливым даже в самые серые дни.',
+  'Когда в моей жизни появилась ты, я понял, что ради этого стоит жить.',
   'Ты умеешь сделать любой мой день счастливым одним взглядом.',
   'С тобой даже тишина звучит как самая уютная музыка.',
   'Ты смеешься так, что у меня внутри сразу становится светло.',
-  'Ты веришь в меня даже в моменты, когда я сам сомневаюсь.',
   'Рядом с тобой я чувствую себя дома, где бы мы ни были.',
   'Ты замечаешь мелочи, из которых и состоит настоящая любовь.',
   'С тобой обычные дни превращаются в маленькие праздники.',
-  'Ты умеешь поддержать так, что после этого хочется горы двигать.',
-  'Ты делаешь меня лучше без давления, просто своей нежностью.',
-  'Мне нравится, как ты смотришь на мир: тепло и искренне.',
-  'С тобой можно быть собой на сто процентов и это бесценно.',
-  'Ты вдохновляешь меня мечтать смелее и жить ярче.',
   'Ты даришь мне чувство спокойствия, которого я раньше не знал.',
-  'Ты моя любимая привычка, от которой не хочется избавляться.',
-  'Потому что это ты, и с тобой мое сердце выбирает «навсегда».',
+  'Если любовь это привычка, то я хочу быть зависимым от тебя навсегда.',
 ];
 
 export const formatDate = (dateStr: string): string => {
@@ -59,6 +56,7 @@ export const formatDate = (dateStr: string): string => {
   };
   
   const [day, month, year] = dateStr.split('.');
+  if (!day || !month || !year || !months[month]) return dateStr;
   return `${day} ${months[month]} ${year}`;
 };
 
@@ -79,51 +77,48 @@ export const formatMonthYear = (dateStr: string): string => {
   };
   
   const [, month, year] = dateStr.split('.');
+  if (!month || !year || !months[month]) return dateStr;
   return `${months[month]} ${year}`;
 };
 
 export const MOCK_TIMELINE_DATA = [
   {
     id: 1,
-    date: '14.03.2024',
-    title: 'Первая встреча',
-    description: 'Наша история началась в этот прекрасный день, когда ты поняла, что ты моя принцесса',
+    date: '19.05.2023',
+    title: 'Наша встреча на работе',
+    description: 'Мы тогда не встречались и я даже не подозревал, что это начало чего-то невероятного. Твою фотку по этическим соображениям я не вставил, но в этот день я фоткал уточек 🦆',
     photos: [
-      'https://images.unsplash.com/photo-1516962644323-5f45f8a0f3ff?w=500&h=500&fit=crop',
-      'https://images.unsplash.com/photo-1546527868-ccfd7ee50fa5?w=500&h=500&fit=crop',
+      '/moments/1/1.jpg',
     ],
   },
   {
     id: 2,
-    date: '05.04.2024',
-    title: 'Первое свидание',
-    description: 'Романтический вечер, который изменил всё',
+    date: '18.09.2023',
+    title: 'Наш первый поход в бар',
+    description: 'Через 4 месяца после первой встречи мы максимально спонтанно пошли в бар (Я не хотел идти, но когда услышал, что ты идешь- мне стало интересно), даже представить не мог, что с тобой так классно общаться и насколько ты противоположного мнения я о тебе был',
     photos: [
-      'https://images.unsplash.com/photo-1511379938547-c1f69b13d835?w=500&h=500&fit=crop',
-      'https://images.unsplash.com/photo-1530268729831-4be0ea1ead84?w=500&h=500&fit=crop',
-      'https://images.unsplash.com/photo-1545847519-2a53f818bdca?w=500&h=500&fit=crop',
+      '/moments/2/2.jpg',
     ],
   },
   {
     id: 3,
-    date: '22.04.2024',
+    date: '25.09.2023',
     title: 'Первый поцелуй',
-    description: 'Момент, который остался в сердцах навечно 💕',
+    description: 'Момент, когда я увидел твою искреннюю улыбку я запомнил на всю жизнь. Тогда я понял, что хочу, чтобы ты была моей ❤️',
     photos: [
-      'https://images.unsplash.com/photo-1515738901601-b340bcfc7860?w=500&h=500&fit=crop',
-      'https://lh3.googleusercontent.com/pw/AP1GczNeE1XFukqqOntvVNWEvap0a16wgy0Ic-vM5Cc1VoW_tTAm0qcmK2ESIS7IMyhvmOf1I4dqUngC4QXYfj1nhlODZWs6YJ0ZNjK_9wCxP3x2q70RPdmFC-mpY3ZWVb1xp9o935TPEWQQSEjzoq_VR8QO=w1480-h1972-s-no-gm?authuser=0',
+      '/moments/3/3.jpg',
     ],
   },
   {
     id: 4,
-    date: '12.05.2024',
+    date: '22.11.2023',
     title: 'Приключение вместе',
-    description: 'Путешествие в страну волшебства и единорогов',
+    description: 'Мы вместе полетели в Египет, сказать что мы охренели- ничего не сказать) ',
     photos: [
-      'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=500&h=500&fit=crop',
-      'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500&h=500&fit=crop',
-      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=500&fit=crop',
-      'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=500&h=500&fit=crop',
+      '/moments/4/4.jpg',
+      '/moments/4/5.jpg',
+      '/moments/4/6.jpg',
+      '/moments/4/7.jpg',
     ],
   },
   {
@@ -152,6 +147,17 @@ export const MOCK_TIMELINE_DATA = [
     date: '14.08.2024',
     title: 'Специальный вечер',
     description: 'Когда мы поняли, что это любовь',
+    photos: [
+      'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=500&h=500&fit=crop',
+      'https://images.unsplash.com/photo-1495396881207-f1b1f4a46db3?w=500&h=500&fit=crop',
+    ],
+  },
+
+  {
+    id: 8,
+    date: '19.08.2024',
+    title: '',
+    description: '',
     photos: [
       'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=500&h=500&fit=crop',
       'https://images.unsplash.com/photo-1495396881207-f1b1f4a46db3?w=500&h=500&fit=crop',

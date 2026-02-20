@@ -194,6 +194,14 @@ $black: #000;
   }
 }
 
+.singlePhotoGrid {
+  grid-template-columns: 1fr;
+
+  .photoWrapper {
+    aspect-ratio: 16 / 10;
+  }
+}
+
 .photoWrapper {
   position: relative;
   aspect-ratio: 1;

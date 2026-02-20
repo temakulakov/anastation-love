@@ -13,6 +13,34 @@ interface TimelineCardProps {
   index: number;
 }
 
+const DECOR_EMOJIS_POOL = ['💐', '✨', '💖', '🦄', '🌙', '🌸', '💫', '🎀', '🫶', '🌟', '🍓', '🎈'];
+
+const hashString = (value: string) => {
+  let hash = 2166136261;
+
+  for (let i = 0; i < value.length; i += 1) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+
+  return hash >>> 0;
+};
+
+const getDecorEmojis = (seed: string, count = 3) => {
+  const pool = [...DECOR_EMOJIS_POOL];
+  const result: string[] = [];
+  let state = hashString(seed);
+
+  while (result.length < count && pool.length > 0) {
+    state = Math.imul(state ^ (state >>> 15), 2246822519) >>> 0;
+    const pickedIndex = state % pool.length;
+    const [picked] = pool.splice(pickedIndex, 1);
+    result.push(picked);
+  }
+
+  return result;
+};
+
 export const TimelineCard: React.FC<TimelineCardProps> = ({
   date,
   title,
@@ -20,6 +48,9 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
   photos,
   index,
 }) => {
+  const normalizedPhotos = photos.filter(Boolean);
+  const hasSinglePhoto = normalizedPhotos.length === 1;
+  const decorEmojis = getDecorEmojis(`${date}-${title}-${index}`);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const isLeft = index % 2 === 0;
 
@@ -30,12 +61,12 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
       switch (e.key) {
         case 'ArrowLeft':
           setSelectedPhotoIndex(
-            selectedPhotoIndex === 0 ? photos.length - 1 : selectedPhotoIndex - 1
+            selectedPhotoIndex === 0 ? normalizedPhotos.length - 1 : selectedPhotoIndex - 1
           );
           break;
         case 'ArrowRight':
           setSelectedPhotoIndex(
-            selectedPhotoIndex === photos.length - 1 ? 0 : selectedPhotoIndex + 1
+            selectedPhotoIndex === normalizedPhotos.length - 1 ? 0 : selectedPhotoIndex + 1
           );
           break;
         case 'Escape':
@@ -46,7 +77,7 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedPhotoIndex, photos.length]);
+  }, [normalizedPhotos.length, selectedPhotoIndex]);
 
   return (
     <div className={`${styles.cardWrapper} ${isLeft ? styles.left : styles.right}`}>
@@ -71,8 +102,8 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
             <h3 className={styles.title}>{title}</h3>
             <p className={styles.description}>{description}</p>
 
-            <div className={styles.photosGrid}>
-              {photos.map((photo, photoIndex) => (
+            <div className={`${styles.photosGrid} ${hasSinglePhoto ? styles.singlePhotoGrid : ''}`}>
+              {normalizedPhotos.map((photo, photoIndex) => (
                 <motion.div
                   key={photoIndex}
                   className={styles.photoWrapper}
@@ -92,16 +123,16 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
             </div>
 
             <div className={styles.decorIcons}>
-              <span>💐</span>
-              <span>✨</span>
-              <span>💖</span>
+              {decorEmojis.map((emoji, emojiIndex) => (
+                <span key={`${emoji}-${emojiIndex}`}>{emoji}</span>
+              ))}
             </div>
           </div>
         </motion.div>
       </motion.div>
 
       {/* Full Screen Modal */}
-      {selectedPhotoIndex !== null && (
+      {selectedPhotoIndex !== null && normalizedPhotos[selectedPhotoIndex] && (
         <motion.div
           className={styles.modal}
           initial={{ opacity: 0 }}
@@ -117,36 +148,40 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <motion.img
-              src={photos[selectedPhotoIndex]}
+              src={normalizedPhotos[selectedPhotoIndex]}
               alt="Full screen"
               className={styles.fullScreenPhoto}
               layoutId={`photo-${selectedPhotoIndex}`}
             />
 
             <div className={styles.modalControls}>
-              <button
-                className={styles.navButton}
-                onClick={() =>
-                  setSelectedPhotoIndex(
-                    selectedPhotoIndex === 0 ? photos.length - 1 : selectedPhotoIndex - 1
-                  )
-                }
-              >
-                ←
-              </button>
+              {normalizedPhotos.length > 1 && (
+                <button
+                  className={styles.navButton}
+                  onClick={() =>
+                    setSelectedPhotoIndex(
+                      selectedPhotoIndex === 0 ? normalizedPhotos.length - 1 : selectedPhotoIndex - 1
+                    )
+                  }
+                >
+                  ←
+                </button>
+              )}
               <span className={styles.photoCounter}>
-                {selectedPhotoIndex + 1} / {photos.length}
+                {selectedPhotoIndex + 1} / {normalizedPhotos.length}
               </span>
-              <button
-                className={styles.navButton}
-                onClick={() =>
-                  setSelectedPhotoIndex(
-                    selectedPhotoIndex === photos.length - 1 ? 0 : selectedPhotoIndex + 1
-                  )
-                }
-              >
-                →
-              </button>
+              {normalizedPhotos.length > 1 && (
+                <button
+                  className={styles.navButton}
+                  onClick={() =>
+                    setSelectedPhotoIndex(
+                      selectedPhotoIndex === normalizedPhotos.length - 1 ? 0 : selectedPhotoIndex + 1
+                    )
+                  }
+                >
+                  →
+                </button>
+              )}
               <button className={styles.closeButton} onClick={() => setSelectedPhotoIndex(null)}>
                 ✕
               </button>

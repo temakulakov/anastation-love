@@ -51,7 +51,7 @@ export const LoveQuizPage: React.FC = () => {
   const result = useMemo(() => {
     if (score === QUESTIONS.length) return 'Идеально! Ты знаешь нашу любовь на максимум 💯💕';
     if (score >= 3) return 'Очень круто! Ты на одной волне с нашим сердцем ✨';
-    return 'Мило! Нужно повторить тест после обнимашек 🤍';
+    return 'Кринж! Нужно повторить тест после обнимашек 🤍';
   }, [score]);
 
   const handleSelect = (optionIndex: number) => {

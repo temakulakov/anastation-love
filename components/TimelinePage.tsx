@@ -13,31 +13,46 @@ interface TimelinePageProps {
 }
 
 const DAY_MS = 24 * 60 * 60 * 1000;
-const TIMELINE_START_DATE = new Date(2024, 2, 1); // March 1, 2024
 const PX_PER_DAY = 3.2;
 const MIN_GAP = 20;
 const MAX_GAP = 120;
 
-const parseDate = (dateStr: string): Date => {
-  const [day, month, year] = dateStr.split('.').map(Number);
-  return new Date(year, month - 1, day);
+const parseDate = (dateStr: string): Date | null => {
+  const [dayStr, monthStr, yearStr] = dateStr.split('.');
+  const day = Number(dayStr);
+  const month = Number(monthStr);
+  const year = Number(yearStr);
+
+  if (!Number.isInteger(day) || !Number.isInteger(month) || !Number.isInteger(year)) return null;
+  if (month < 1 || month > 12 || day < 1 || day > 31 || year < 1900) return null;
+
+  const date = new Date(year, month - 1, day);
+  if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+    return null;
+  }
+
+  return date;
 };
 
 export const TimelinePage: React.FC<TimelinePageProps> = ({ onLogout }) => {
   const [phraseIndex, setPhraseIndex] = useState(0);
-  const timelineEvents = useMemo(
-    () =>
-      [...MOCK_TIMELINE_DATA]
-        .filter((item) => parseDate(item.date).getTime() >= TIMELINE_START_DATE.getTime())
-        .sort((a, b) => parseDate(a.date).getTime() - parseDate(b.date).getTime()),
-    []
-  );
+  const timelineEvents = useMemo(() => {
+    const parsedEvents = MOCK_TIMELINE_DATA
+      .map((item) => ({ item, parsedDate: parseDate(item.date) }))
+      .filter((entry) => entry.parsedDate !== null) as Array<{
+      item: (typeof MOCK_TIMELINE_DATA)[number];
+      parsedDate: Date;
+    }>;
+
+    parsedEvents.sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime());
+    return parsedEvents;
+  }, []);
 
   const timelineItems = useMemo(() => {
     if (timelineEvents.length === 0) return [];
 
-    const firstEventDate = parseDate(timelineEvents[0].date);
-    const lastEventDate = parseDate(timelineEvents[timelineEvents.length - 1].date);
+    const firstEventDate = timelineEvents[0].parsedDate;
+    const lastEventDate = timelineEvents[timelineEvents.length - 1].parsedDate;
     const firstMonth = new Date(firstEventDate.getFullYear(), firstEventDate.getMonth(), 1);
 
     const monthDates: Date[] = [];
@@ -63,7 +78,7 @@ export const TimelinePage: React.FC<TimelinePageProps> = ({ onLogout }) => {
       })),
       ...timelineEvents.map((event, eventIndex) => ({
         kind: 'event' as const,
-        date: parseDate(event.date),
+        date: event.parsedDate,
         eventIndex,
       })),
     ];
@@ -217,7 +232,11 @@ export const TimelinePage: React.FC<TimelinePageProps> = ({ onLogout }) => {
           >
             {timelineItems.map((item) => (
               <div
-                key={item.kind === 'month' ? `month-${item.date.getTime()}` : `event-${timelineEvents[item.eventIndex].id}`}
+                key={
+                  item.kind === 'month'
+                    ? `month-${item.date.getTime()}`
+                    : `event-${timelineEvents[item.eventIndex].item.id}`
+                }
                 className={styles.timelineItem}
                 style={{ marginTop: `${item.gap}px` }}
               >
@@ -228,7 +247,7 @@ export const TimelinePage: React.FC<TimelinePageProps> = ({ onLogout }) => {
                   />
                 ) : (
                   <TimelineCard
-                    {...timelineEvents[item.eventIndex]}
+                    {...timelineEvents[item.eventIndex].item}
                     index={item.eventIndex}
                   />
                 )}

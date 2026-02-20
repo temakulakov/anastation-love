@@ -6,17 +6,36 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { REASONS_BANK } from '@/utils/constants';
 import styles from '@/styles/components/ReasonsBankPage.module.scss';
 
-export const ReasonsBankPage: React.FC = () => {
-  const [reason, setReason] = useState(REASONS_BANK[0]);
-  const [drawCount, setDrawCount] = useState(0);
+const shuffleReasons = (reasons: string[]) => {
+  const shuffled = [...reasons];
 
-  const glowDelay = useMemo(() => (drawCount % 5) * 0.06, [drawCount]);
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+};
+
+export const ReasonsBankPage: React.FC = () => {
+  const [deck, setDeck] = useState<string[]>(() => shuffleReasons(REASONS_BANK));
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const totalReasons = REASONS_BANK.length;
+  const reason = deck[currentIndex];
+  const isFinished = currentIndex >= totalReasons - 1;
+  const shownCount = Math.min(currentIndex + 1, totalReasons);
+
+  const glowDelay = useMemo(() => (currentIndex % 5) * 0.06, [currentIndex]);
 
   const handleDraw = () => {
-    const pool = REASONS_BANK.filter((item) => item !== reason);
-    const nextReason = pool[Math.floor(Math.random() * pool.length)] || REASONS_BANK[0];
-    setReason(nextReason);
-    setDrawCount((prev) => prev + 1);
+    if (isFinished) return;
+    setCurrentIndex((prev) => prev + 1);
+  };
+
+  const handleReshuffle = () => {
+    setDeck(shuffleReasons(REASONS_BANK));
+    setCurrentIndex(0);
   };
 
   return (
@@ -61,20 +80,24 @@ export const ReasonsBankPage: React.FC = () => {
           Банк Причин
         </motion.h1>
 
-        <p className={styles.subtitle}>15 причин, почему я люблю тебя еще сильнее каждый день</p>
+        <p className={styles.subtitle}>
+          {totalReasons} причин, почему я люблю тебя еще сильнее каждый день
+        </p>
 
         <motion.div
           className={styles.reasonCard}
-          key={reason}
+          key={`${reason}-${currentIndex}`}
           initial={{ opacity: 0, y: 16, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
           style={{ animationDelay: `${glowDelay}s` }}
         >
-          <span className={styles.badge}>вытянуто причин: {drawCount + 1}</span>
+          <span className={styles.badge}>
+            вытянуто причин: {shownCount}/{totalReasons}
+          </span>
           <AnimatePresence mode="wait">
             <motion.p
-              key={reason}
+              key={`${reason}-${currentIndex}`}
               className={styles.reasonText}
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
@@ -86,14 +109,27 @@ export const ReasonsBankPage: React.FC = () => {
           </AnimatePresence>
         </motion.div>
 
-        <motion.button
-          className={styles.drawButton}
-          onClick={handleDraw}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.96 }}
-        >
-          Вытянуть причину
-        </motion.button>
+        {!isFinished && (
+          <motion.button
+            className={styles.drawButton}
+            onClick={handleDraw}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.96 }}
+          >
+            Вытянуть причину
+          </motion.button>
+        )}
+
+        {isFinished && (
+          <motion.button
+            className={styles.drawButton}
+            onClick={handleReshuffle}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.96 }}
+          >
+            Замешать заново
+          </motion.button>
+        )}
 
         <div className={styles.actions}>
           <Link href="/game" className={styles.gameLink}>
