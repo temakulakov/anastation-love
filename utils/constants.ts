@@ -80,6 +80,43 @@ export const formatMonthYear = (dateStr: string): string => {
   return `${months[month]} ${year}`;
 };
 
+const ROOT_MOMENT_PHOTOS = [
+  '/moments/02.03.2024.jpg',
+  '/moments/02.09.2023.jpg',
+  '/moments/03.01.2025.jpg',
+  '/moments/03.10.2024.jpg',
+  '/moments/03.10.2025.jpg',
+  '/moments/04.05.2025.jpg',
+  '/moments/05.08.2025.jpg',
+  '/moments/06.05.2024.jpg',
+  '/moments/06.06.2025.jpg',
+  '/moments/06.07.2024.jpg',
+  '/moments/06.07.2024_1.jpg',
+  '/moments/07.05.2025.jpg',
+  '/moments/08.03.2025.jpg',
+  '/moments/08.09.2024.jpg',
+  '/moments/10.09.2023.jpg',
+  '/moments/14.02.2025.jpg',
+  '/moments/15.08.2024.jpg',
+  '/moments/16.05.2025.jpg',
+  '/moments/18.04.2024.jpg',
+  '/moments/19.09.2024.jpg',
+  '/moments/20.04.2024.jpg',
+  '/moments/22.05.2025.jpg',
+  '/moments/24.05.2024.jpg',
+  '/moments/25.02.2024.jpg',
+  '/moments/28.06.2024.jpg',
+  '/moments/29.01.2025.jpg',
+  '/moments/30.05.2025.jpg',
+  '/moments/30.10.2024.jpg',
+  '/moments/31.09.2023.jpg',
+];
+
+const getDateFromMomentPhotoPath = (photoPath: string) => {
+  const matchedDate = photoPath.match(/\/(\d{2}\.\d{2}\.\d{4})(?:_[^/]+)?\.jpe?g$/i);
+  return matchedDate?.[1] ?? '01.01.1970';
+};
+
 export const MOCK_TIMELINE_DATA = [
   {
     id: 1,
@@ -151,15 +188,11 @@ export const MOCK_TIMELINE_DATA = [
       'https://images.unsplash.com/photo-1495396881207-f1b1f4a46db3?w=500&h=500&fit=crop',
     ],
   },
-
-  {
-    id: 8,
-    date: '19.08.2024',
+  ...ROOT_MOMENT_PHOTOS.map((photoPath, index) => ({
+    id: 100 + index,
+    date: getDateFromMomentPhotoPath(photoPath),
     title: '',
     description: '',
-    photos: [
-      'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=500&h=500&fit=crop',
-      'https://images.unsplash.com/photo-1495396881207-f1b1f4a46db3?w=500&h=500&fit=crop',
-    ],
-  },
+    photos: [photoPath],
+  })),
 ];

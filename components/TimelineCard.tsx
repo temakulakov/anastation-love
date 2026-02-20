@@ -51,6 +51,8 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
   const normalizedPhotos = photos.filter(Boolean);
   const hasSinglePhoto = normalizedPhotos.length === 1;
   const decorEmojis = getDecorEmojis(`${date}-${title}-${index}`);
+  const hasTitle = title.trim().length > 0;
+  const hasDescription = description.trim().length > 0;
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
   const isLeft = index % 2 === 0;
 
@@ -99,8 +101,8 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
           </div>
 
           <div className={styles.cardContent}>
-            <h3 className={styles.title}>{title}</h3>
-            <p className={styles.description}>{description}</p>
+            {hasTitle && <h3 className={styles.title}>{title}</h3>}
+            {hasDescription && <p className={styles.description}>{description}</p>}
 
             <div className={`${styles.photosGrid} ${hasSinglePhoto ? styles.singlePhotoGrid : ''}`}>
               {normalizedPhotos.map((photo, photoIndex) => (
