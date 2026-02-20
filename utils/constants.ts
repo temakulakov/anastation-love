@@ -157,37 +157,6 @@ export const MOCK_TIMELINE_DATA = [
       '/moments/4/7.jpg',
     ],
   },
-  {
-    id: 5,
-    date: '15.06.2024',
-    title: 'День рождения принцессы',
-    description: 'День, когда мир получил ещё одного ангела',
-    photos: [
-      'https://images.unsplash.com/photo-1526047932273-031fefade091?w=500&h=500&fit=crop',
-      'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=500&h=500&fit=crop',
-    ],
-  },
-  {
-    id: 6,
-    date: '01.07.2024',
-    title: 'Месячница',
-    description: 'Один месяц вечного счастья вместе',
-    photos: [
-      'https://images.unsplash.com/photo-1505228395891-9a51e7e86e81?w=500&h=500&fit=crop',
-      'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&h=500&fit=crop',
-      'https://images.unsplash.com/photo-1516962594247-afb54c3ec978?w=500&h=500&fit=crop',
-    ],
-  },
-  {
-    id: 7,
-    date: '14.08.2024',
-    title: 'Специальный вечер',
-    description: 'Когда мы поняли, что это любовь',
-    photos: [
-      'https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=500&h=500&fit=crop',
-      'https://images.unsplash.com/photo-1495396881207-f1b1f4a46db3?w=500&h=500&fit=crop',
-    ],
-  },
   ...ROOT_MOMENT_PHOTOS.map((photoPath, index) => ({
     id: 100 + index,
     date: getDateFromMomentPhotoPath(photoPath),
